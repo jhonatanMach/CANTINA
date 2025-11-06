@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cantina Senai | Pedidos</title>
-<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedidos - Cantina Senai</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="app-container">
-
     <aside class="sidebar">
         <div class="logo">Espaço Gourmet - Senai</div>
         <nav>
@@ -18,7 +16,7 @@
                 <li class="ativo"><a href="pedidos.html">Pedidos</a></li>
                 <li><a href="relatorios.html">Relatórios</a></li>
                 <li><a href="configuracoes.html">Configurações</a></li>
-                <li><a href="index.html" class="logout">Sair</a></li>
+                <li><a href="#" class="logout">Sair</a></li>
             </ul>
         </nav>
     </aside>
@@ -27,210 +25,207 @@
         <header class="header">
             <h2>Gerenciamento de Pedidos</h2>
             <div class="user-info">
-                <span>Olá, <span id="usuarioLogado"></span>!</span>
+                <span>Olá, Seja Bem Vindo(a) !</span>
             </div>
         </header>
 
         <main class="content-area">
             <div class="pedidos-acoes">
-                <input type="text" placeholder="Buscar pedido por ID, cliente..." id="buscaPedido">
-                <select id="filtroStatus">
-                    <option value="todos">Todos</option>
+                <input type="text" placeholder="Buscar pedido por ID, nome..." class="busca-input" id="buscaPedido">
+                <select class="filtro-status" id="filtroStatus">
+                    <option value="todos">Mostrar Todos</option>
                     <option value="novo">Novo</option>
                     <option value="preparo">Em Preparo</option>
                     <option value="pronto">Pronto</option>
                     <option value="entregue">Entregue</option>
                 </select>
-                <button id="btnNovoPedido">+ Novo Pedido</button>
+                <button class="botao-novo" id="btnNovoPedido">+ Novo Pedido</button>
             </div>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Cliente/Mesa</th>
-                        <th>Itens</th>
-                        <th>Total</th>
-                        <th>Status</th>
-                        <th>Hora</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody id="tabelaPedidos"></tbody>
-            </table>
+            <div class="tabela-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Cliente/Mesa</th>
+                            <th>Itens do Pedido</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Hora do Pedido</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
         </main>
     </div>
-</div>
 
-<!-- Modal Pedido -->
-<div id="modalPedido" class="modal">
-    <div class="modal-conteudo">
-        <span class="fechar-modal">&times;</span>
-        <h2 id="tituloModalPedido">Adicionar Novo Pedido</h2>
-        <form id="formPedido">
-            <input type="hidden" id="pedidoId">
-            <div class="form-grupo">
-                <label for="cliente">Cliente / Mesa:</label>
-                <input type="text" id="cliente" required placeholder="Ex: Mesa 5 ou João Silva">
-            </div>
-            <div class="form-grupo">
-                <label for="itens">Itens do Pedido:</label>
-                <input type="text" id="itens" required placeholder="Ex: Coxinha, Suco de Laranja">
-            </div>
-            <div class="form-grupo">
-                <label for="total">Total (R$):</label>
-                <input type="number" id="total" step="0.01" min="0" required>
-            </div>
-            <div class="form-grupo">
-                <label for="status">Status:</label>
-                <select id="status">
-                    <option value="novo">Novo</option>
-                    <option value="preparo">Em Preparo</option>
-                    <option value="pronto">Pronto</option>
-                    <option value="entregue">Entregue</option>
-                </select>
-            </div>
-            <button type="submit">Salvar Pedido</button>
-        </form>
+    <!-- Modal -->
+    <div id="modalPedido" class="modal">
+        <div class="modal-conteudo">
+            <span class="fechar-modal">&times;</span>
+            <h2 id="modalTitulo">Adicionar Novo Pedido</h2>
+            <form id="formPedido">
+                <input type="hidden" id="pedidoId">
+                <div class="form-grupo">
+                    <label for="cliente">Cliente / Mesa:</label>
+                    <input type="text" id="cliente" required>
+                </div>
+                <div class="form-grupo">
+                    <label for="itens">Itens do Pedido:</label>
+                    <input type="text" id="itens" required>
+                </div>
+                <div class="form-grupo">
+                    <label for="total">Total (R$):</label>
+                    <input type="number" id="total" step="0.01" min="0" required>
+                </div>
+                <div class="form-grupo">
+                    <label for="status">Status:</label>
+                    <select id="status" required>
+                        <option value="novo">Novo</option>
+                        <option value="preparo">Em Preparo</option>
+                        <option value="pronto">Pronto</option>
+                        <option value="entregue">Entregue</option>
+                    </select>
+                </div>
+                <button type="submit">Salvar Pedido</button>
+            </form>
+        </div>
     </div>
-</div>
 
-<script>
-const usuario = localStorage.getItem("usuarioLogado");
-if(!usuario) window.location.href = "index.html";
-else document.getElementById("usuarioLogado").textContent = usuario;
+    <script>
+        // Proteção de acesso
+        const usuario = localStorage.getItem("usuarioLogado");
+        if(!usuario) window.location.href = "index1.html";
 
-// Dados de pedidos iniciais
-let pedidos = [
-    {id:101, cliente:"Mesa 3", itens:"X-Salada, Coca-Cola", total:35.50, status:"novo", hora:"10:45"},
-    {id:102, cliente:"João Silva", itens:"3 Pasteis de Queijo, Suco Laranja", total:22.00, status:"preparo", hora:"10:40"},
-    {id:103, cliente:"Mesa 1", itens:"Prato Feito A", total:28.00, status:"pronto", hora:"10:30"},
-    {id:104, cliente:"Maria Souza", itens:"Açaí Grande", total:18.50, status:"entregue", hora:"10:20"}
-];
-let proximoId = 105;
+        const btnSair = document.querySelector(".logout");
+        btnSair.addEventListener("click", () => {
+            localStorage.removeItem("usuarioLogado");
+            window.location.href = "index1.html";
+        });
 
-const corpoTabela = document.getElementById("tabelaPedidos");
-const modal = document.getElementById("modalPedido");
-const btnNovo = document.getElementById("btnNovoPedido");
-const fechar = document.querySelector(".fechar-modal");
-const form = document.getElementById("formPedido");
-const tituloModal = document.getElementById("tituloModalPedido");
+        let pedidos = [];
+        let proximoId = 1;
 
-function obterStatusInfo(status){
-    switch(status){
-        case "novo": return {nome:"Novo", classe:"status-novo"};
-        case "preparo": return {nome:"Em Preparo", classe:"status-preparo"};
-        case "pronto": return {nome:"Pronto", classe:"status-pronto"};
-        case "entregue": return {nome:"Entregue", classe:"status-entregue"};
-        default: return {nome:"Desconhecido", classe:"status-desconhecido"};
-    }
-}
-
-function renderizarPedidos(){
-    const busca = document.getElementById("buscaPedido").value.toLowerCase();
-    const filtro = document.getElementById("filtroStatus").value;
-    corpoTabela.innerHTML = "";
-    pedidos
-    .filter(p => (p.cliente.toLowerCase().includes(busca) || p.id.toString().includes(busca)) &&
-                 (filtro=="todos"||p.status==filtro))
-    .forEach(pedido=>{
-        const linha = corpoTabela.insertRow();
-        linha.insertCell().textContent = `#${pedido.id}`;
-        linha.insertCell().textContent = pedido.cliente;
-        linha.insertCell().textContent = pedido.itens;
-        linha.insertCell().textContent = `R$ ${pedido.total.toFixed(2).replace(".",",")}`;
-        const celulaStatus = linha.insertCell();
-        const statusInfo = obterStatusInfo(pedido.status);
-        celulaStatus.innerHTML = `<span class="status-tag ${statusInfo.classe}">${statusInfo.nome}</span>`;
-        linha.insertCell().textContent = pedido.hora;
-
-        const celulaAcoes = linha.insertCell();
-
-        // Botão avançar status
-        let proximoStatus = "";
-        let acaoTexto = "";
-        switch(pedido.status){
-            case "novo": proximoStatus="preparo"; acaoTexto="Iniciar Preparo"; break;
-            case "preparo": proximoStatus="pronto"; acaoTexto="Marcar Pronto"; break;
-            case "pronto": proximoStatus="entregue"; acaoTexto="Finalizar"; break;
-        }
-        if(proximoStatus){
-            const btnAcao = document.createElement("button");
-            btnAcao.className = "btn-acao";
-            btnAcao.textContent = acaoTexto;
-            btnAcao.onclick = ()=> { pedido.status=proximoStatus; renderizarPedidos(); };
-            celulaAcoes.appendChild(btnAcao);
+        function salvarPedidos() {
+            localStorage.setItem("pedidos", JSON.stringify(pedidos));
         }
 
-        // Editar
-        const btnEditar = document.createElement("button");
-        btnEditar.className = "btn-editar";
-        btnEditar.textContent = "Editar";
-        btnEditar.onclick = ()=> abrirModal("editar", pedido);
-        celulaAcoes.appendChild(btnEditar);
-
-        // Excluir
-        const btnExcluir = document.createElement("button");
-        btnExcluir.className = "btn-excluir";
-        btnExcluir.textContent = "Excluir";
-        btnExcluir.onclick = ()=> {
-            if(confirm(`Excluir pedido #${pedido.id}?`)){
-                pedidos = pedidos.filter(p=>p.id!==pedido.id);
-                renderizarPedidos();
+        function carregarPedidos() {
+            const dadosSalvos = localStorage.getItem("pedidos");
+            if(dadosSalvos){
+                pedidos = JSON.parse(dadosSalvos);
+                proximoId = pedidos.length ? Math.max(...pedidos.map(p => p.id)) +1 :1;
+            } else {
+                pedidos = [];
+                salvarPedidos();
             }
-        };
-        celulaAcoes.appendChild(btnExcluir);
-    });
-}
+        }
 
-// Modal
-function abrirModal(modo, pedido={}){
-    modal.style.display="flex";
-    if(modo==="adicionar"){
-        tituloModal.textContent="Adicionar Novo Pedido";
-        form.reset();
-        document.getElementById("pedidoId").value="";
-        document.getElementById("status").value="novo";
-    } else {
-        tituloModal.textContent=`Editar Pedido #${pedido.id}`;
-        document.getElementById("pedidoId").value=pedido.id;
-        document.getElementById("cliente").value=pedido.cliente;
-        document.getElementById("itens").value=pedido.itens;
-        document.getElementById("total").value=pedido.total;
-        document.getElementById("status").value=pedido.status;
-    }
-}
-function fecharModal(){ modal.style.display="none"; }
+        const corpoTabela = document.querySelector('table tbody');
+        const modal = document.getElementById('modalPedido');
+        const fechar = document.querySelector('.fechar-modal');
+        const btnNovo = document.getElementById('btnNovoPedido');
+        const modalTitulo = document.getElementById('modalTitulo');
+        const form = document.getElementById('formPedido');
 
-btnNovo.onclick = ()=> abrirModal("adicionar");
-fechar.onclick = fecharModal;
-window.onclick = e => { if(e.target==modal) fecharModal(); };
+        function abrirModal(modo, pedido={}){
+            modal.style.display='block';
+            if(modo==='adicionar'){
+                modalTitulo.textContent='Adicionar Novo Pedido';
+                form.reset();
+                document.getElementById('pedidoId').value='';
+                document.getElementById('status').value='novo';
+            } else {
+                modalTitulo.textContent=`Editar Pedido #${pedido.id}`;
+                document.getElementById('pedidoId').value = pedido.id;
+                document.getElementById('cliente').value = pedido.cliente;
+                document.getElementById('itens').value = pedido.itens;
+                document.getElementById('total').value = pedido.total.toFixed(2);
+                document.getElementById('status').value = pedido.status;
+            }
+        }
 
-form.addEventListener("submit", e=>{
-    e.preventDefault();
-    const id = document.getElementById("pedidoId").value;
-    const cliente = document.getElementById("cliente").value;
-    const itens = document.getElementById("itens").value;
-    const total = parseFloat(document.getElementById("total").value);
-    const status = document.getElementById("status").value;
-    const hora = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+        function fecharModal(){ modal.style.display='none'; }
 
-    if(id){
-        const index = pedidos.findIndex(p=>p.id==id);
-        if(index!==-1) pedidos[index]={id: parseInt(id), cliente, itens, total, status, hora};
-    } else {
-        pedidos.push({id:proximoId++, cliente, itens, total, status, hora});
-    }
-    fecharModal();
-    renderizarPedidos();
-});
+        function excluirPedido(id){
+            if(confirm(`Excluir pedido #${id}?`)){
+                pedidos = pedidos.filter(p=>p.id!==id);
+                salvarPedidos();
+                renderizarTabela();
+            }
+        }
 
-// Filtro e busca
-document.getElementById("buscaPedido").addEventListener("input", renderizarPedidos);
-document.getElementById("filtroStatus").addEventListener("change", renderizarPedidos);
+        function mudarStatus(id, novoStatus){
+            const pedido = pedidos.find(p=>p.id===id);
+            if(pedido){
+                pedido.status=novoStatus;
+                salvarPedidos();
+                renderizarTabela();
+            }
+        }
 
-renderizarPedidos();
-</script>
+        function renderizarTabela(){
+            corpoTabela.innerHTML='';
+            const filtro = document.getElementById('filtroStatus').value;
+            const busca = document.getElementById('buscaPedido').value.toLowerCase();
+
+            pedidos.filter(p=>{
+                return (filtro==='todos'||p.status===filtro) &&
+                       (p.cliente.toLowerCase().includes(busca)||String(p.id).includes(busca));
+            }).forEach(pedido=>{
+                const linha = corpoTabela.insertRow();
+                linha.insertCell().textContent = `#${pedido.id}`;
+                linha.insertCell().textContent = pedido.cliente;
+                linha.insertCell().textContent = pedido.itens;
+                linha.insertCell().textContent = `R$ ${pedido.total.toFixed(2).replace('.',',')}`;
+                linha.insertCell().textContent = pedido.status;
+                linha.insertCell().textContent = pedido.hora;
+                const acoes = linha.insertCell();
+                
+                if(pedido.status==='novo') acoes.innerHTML+=`<button onclick="mudarStatus(${pedido.id},'preparo')">Iniciar Preparo</button>`;
+                if(pedido.status==='preparo') acoes.innerHTML+=`<button onclick="mudarStatus(${pedido.id},'pronto')">Marcar Pronto</button>`;
+                if(pedido.status==='pronto') acoes.innerHTML+=`<button onclick="mudarStatus(${pedido.id},'entregue')">Finalizar</button>`;
+
+                acoes.innerHTML+=` <button onclick="abrirModal('editar', ${JSON.stringify(pedido)})">Editar</button>`;
+                acoes.innerHTML+=` <button onclick="excluirPedido(${pedido.id})">Excluir</button>`;
+            });
+        }
+
+        form.addEventListener('submit', e=>{
+            e.preventDefault();
+            const id = document.getElementById('pedidoId').value;
+            const cliente = document.getElementById('cliente').value;
+            const itens = document.getElementById('itens').value;
+            const total = parseFloat(document.getElementById('total').value);
+            const status = document.getElementById('status').value;
+
+            if(id){
+                const index = pedidos.findIndex(p=>p.id==id);
+                pedidos[index]={...pedidos[index],cliente,itens,total,status};
+            } else {
+                pedidos.push({
+                    id: proximoId++,
+                    cliente,itens,total,status,
+                    hora: new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})
+                });
+            }
+            salvarPedidos();
+            fecharModal();
+            renderizarTabela();
+        });
+
+        btnNovo.onclick=()=>abrirModal('adicionar');
+        fechar.onclick=fecharModal;
+        window.onclick=e=>{if(e.target==modal)fecharModal();}
+        document.getElementById('filtroStatus').addEventListener('change',renderizarTabela);
+        document.getElementById('buscaPedido').addEventListener('input',renderizarTabela);
+
+        document.addEventListener('DOMContentLoaded', ()=>{
+            carregarPedidos();
+            renderizarTabela();
+        });
+    </script>
 </body>
 </html>
-
