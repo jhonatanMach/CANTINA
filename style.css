@@ -1,0 +1,399 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.topo-site{
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 15px 0;
+    background-color: #0e0606;
+}
+
+.logo-redonda {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #c73434;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.logo-redonda:hover {
+    opacity: 0.8;
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    overflow: hidden; 
+}
+
+.login-container {
+    display: flex; 
+    height: 100%;
+    width: 100%;
+}
+
+.login-lado { 
+    flex: 1; 
+    display: flex; 
+    justify-content: center;
+    align-items: center; 
+    background-color: #ffffff;
+}
+
+.login-box {
+    width: 80%; 
+    max-width: 350px;
+    padding: 20px;
+    text-align: center;
+}
+
+.login-box input, .login-box button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.login-box button {
+    background-color: #c73434;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.app-container {
+    display: flex; 
+    height: 100vh;
+    width: 100%;
+    background-color: #ccc; 
+}
+
+.sidebar {
+    width: 250px; 
+    background-color: #c73434; 
+    color: white;
+    padding: 20px 0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar .logo {
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 30px;
+    padding: 0 20px;
+}
+
+.sidebar nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar nav li a {
+    display: block;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #bdc3c7;
+    transition: background-color 0.3s;
+}
+
+.sidebar nav li a:hover,
+.sidebar nav li.ativo a {
+    background-color: #6b060b;
+    color: #ecf0f1;
+}
+
+.sidebar .logout {
+    margin-top: 50px;
+    border-top: 1px solid #c73434;
+    text-align: center;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    background-color: white;
+    padding: 15px 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.content-area {
+    padding: 30px;
+    display: block; 
+}
+
+.card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: calc(33.333% - 20px);
+    min-width: 250px;
+}
+
+.card h3 {
+    margin-top: 0;
+    color: #7f8c8d;
+    font-weight: normal;
+}
+
+.card .valor {
+    font-size: 2em;
+    font-weight: bold;
+    color: #2c3e50;
+    margin: 10px 0 0 0;
+}
+
+.produtos-acoes {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.busca-input {
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 300px;
+}
+
+.botao-novo {
+    background-color: #c73434ec; 
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.botao-novo:hover {
+    background-color: #6b060b; 
+}
+
+.tabela-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table thead th {
+    background-color: #f4f7fa;
+    color: #34495e;
+    padding: 12px;
+    text-align: left;
+    border-bottom: 2px solid #ecf0f1;
+}
+
+table tbody tr {
+    border-bottom: 1px solid #ecf0f1;
+}
+
+table tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+table tbody td {
+    padding: 12px;
+    color: #34495e;
+}
+
+.btn-editar, .btn-excluir {
+    border: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    margin-right: 5px;
+    color: white;
+}
+
+.btn-editar {
+    background-color: #3d5a6d; 
+}
+
+.btn-excluir {
+    background-color: #e74c3c; 
+}
+
+.btn-editar:hover {
+    background-color: #2980b9;
+}
+
+.btn-excluir:hover {
+    background-color: #c0392b;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+    padding-top: 50px;
+}
+
+.modal-conteudo {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 30px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.fechar-modal {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.fechar-modal:hover,
+.fechar-modal:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.form-grupo {
+    margin-bottom: 15px;
+}
+
+.form-grupo label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: black;
+}
+
+.modal-conteudo input[type="text"],
+.modal-conteudo input[type="number"],
+.modal-conteudo select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+#btnSalvar {
+    background-color: #c73434;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-top: 10px;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+#btnSalvar:hover {
+    background-color: #6b060b;
+}
+
+.pedidos-acoes {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.filtro-status {
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#btnSalvarPedido { 
+    background-color: #c73434;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-top: 10px;
+    width: 100%;
+    transition: background-color 0.3s;
+}
+
+#btnSalvarPedido:hover {
+    background-color: #a32b2b;
+}
+
+.btn-acao {
+    background-color: #c73434; 
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    margin-right: 5px; 
+    transition: background-color 0.3s;
+}
+
+.btn-acao:hover {
+    background-color: #a32b2b;
+}
+
+
+/*status(cores) */
+.status-tag {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 0.85em;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: white;
+}
+
+.status-novo {
+    background-color: #f39c12; 
+}
+
+.status-preparo {
+    background-color: #2fb2e6; 
+}
+
+.status-pronto {
+    background-color: #2ecc71; 
+}
+
+.status-entregue {
+    background-color: #7f8c8d; 
+}

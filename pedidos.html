@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cantina Senai | Pedidos</title>
+
+    <script language = "JavaScript">
+        </script>
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <div class="app-container">
+        
+        <aside class="sidebar">
+            <div class="logo">Espaço Gourmet - Senai</div>
+            <nav>
+                <ul>
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="produtos.html">Produtos</a></li>
+                    <li class="ativo"><a href="pedidos.html">Pedidos</a></li>
+                    <li><a href="relatorios.html">Relatórios</a></li>
+                    <li><a href="configuracoes.html">Configurações</a></li>
+                    <li><a href="index1.html" class="logout">Sair</a></li>
+                </ul>
+            </nav>
+        </aside>
+        
+        <div class="main-content">
+            
+            <header class="header">
+                <h2>Gerenciamento de Pedidos</h2>
+                <div class="user-info">
+                    <span>Olá, Seja Bem Vindo(a) !</span>
+                </div>
+            </header>
+            
+            <main class="content-area">
+                
+                <div class="pedidos-acoes">
+                    <input type="text" placeholder="Buscar pedido por ID, nome..." class="busca-input">
+                    <select class="filtro-status">
+                        <option value="todos">Mostrar Todos</option>
+                        <option value="novo">Novo</option>
+                        <option value="preparo">Em Preparo</option>
+                        <option value="pronto">Pronto</option>
+                        <option value="entregue">Entregue</option>
+                    </select>
+                    <button class="botao-novo" id="btnNovoPedido">+ Novo Pedido</button>
+                </div>
+
+                <div class="tabela-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Cliente/Mesa</th>
+                                <th>Itens do Pedido</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Hora do Pedido</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            </tbody>
+                    </table>
+                </div>
+
+            </main>
+            
+        </div>
+    </div>
+
+    <div id="modalPedido" class="modal">
+        <div class="modal-conteudo">
+            <span class="fechar-modal">&times;</span>
+            <h2 id="modalTitulo">Adicionar Novo Pedido</h2>
+            
+            <form id="formPedido">
+                
+                <input type="hidden" id="pedidoId" value="">
+
+                <div class="form-grupo">
+                    <label for="cliente">Cliente / Mesa:</label>
+                    <input type="text" id="cliente" required placeholder="Ex: Mesa 5 ou João Silva">
+                </div>
+
+                <div class="form-grupo">
+                    <label for="itens">Itens do Pedido (Descrição Rápida):</label>
+                    <input type="text" id="itens" required placeholder="Ex: Coxinha, 1 Suco Laranja">
+                </div>
+
+                <div class="form-grupo">
+                    <label for="total">Total (R$):</label>
+                    <input type="number" id="total" step="0.01" min="0" required>
+                </div>
+
+                <div class="form-grupo">
+                    <label for="status">Status:</label>
+                    <select id="status" required>
+                        <option value="novo">Novo</option>
+                        <option value="preparo">Em Preparo</option>
+                        <option value="pronto">Pronto</option>
+                        <option value="entregue">Entregue</option>
+                    </select>
+                </div>
+
+                <button type="submit" id="btnSalvarPedido">Salvar Pedido</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+    let pedidos = [
+        { id: 101, cliente: 'Mesa 3', itens: 'X-Salada, Coca-Cola', total: 35.50, status: 'novo', hora: '10:45' },
+        { id: 102, cliente: 'João Silva', itens: '3 Pasteis de Queijo, Suco de Laranja', total: 22.00, status: 'preparo', hora: '10:40' },
+        { id: 103, cliente: 'Mesa 1', itens: 'Prato Feito A', total: 28.00, status: 'pronto', hora: '10:30' },
+        { id: 104, cliente: 'Maria Souza', itens: 'Açaí Grande com Adicionais', total: 18.50, status: 'entregue', hora: '10:20' }
+    ];
+    let proximoId = 105;
+
+    const corpoTabela = document.querySelector('table tbody');
+    const modal = document.getElementById('modalPedido');
+    const fechar = document.querySelector('.fechar-modal');
+    const btnNovo = document.getElementById('btnNovoPedido');
+    const modalTitulo = document.getElementById('modalTitulo');
+    const form = document.getElementById('formPedido');
+
+    function obterStatusInfo(statusKey) {
+        switch (statusKey) {
+            case 'novo': return { nome: 'Novo', classe: 'status-novo' };
+            case 'preparo': return { nome: 'Em Preparo', classe: 'status-preparo' };
+            case 'pronto': return { nome: 'Pronto', classe: 'status-pronto' };
+            case 'entregue': return { nome: 'Entregue', classe: 'status-entregue' };
+            default: return { nome: 'Desconhecido', classe: 'status-desconhecido' };
+        }
+    }
+    
+    function mudarStatus(id, novoStatus) {
+        const pedido = pedidos.find(p => p.id === id);
+        if (pedido) {
+            pedido.status = novoStatus;
+            renderizarTabela();
+            alert(`Pedido #${id} movido para: ${obterStatusInfo(novoStatus).nome}`);
+        }
+    }
+    
+    function abrirModal(modo, pedido = {}) {
+        modal.style.display = 'block';
+        
+        if (modo === 'adicionar') {
+            modalTitulo.textContent = 'Adicionar Novo Pedido';
+            form.reset(); 
+            document.getElementById('pedidoId').value = '';
+            document.getElementById('status').value = 'novo'; 
+        } else if (modo === 'editar') {
+            modalTitulo.textContent = `Editar Pedido #${pedido.id}`;
+            document.getElementById('pedidoId').value = pedido.id;
+            document.getElementById('cliente').value = pedido.cliente;
+            document.getElementById('itens').value = pedido.itens;
+            document.getElementById('total').value = pedido.total.toFixed(2);
+            document.getElementById('status').value = pedido.status;
+        }
+    }
+
+    function fecharModal() {
+        modal.style.display = 'none';
+    }
+
+    function excluirPedido(id) {
+        if (confirm(`Tem certeza que deseja EXCLUIR o pedido #${id} permanentemente?`)) {
+            pedidos = pedidos.filter(p => p.id !== id);
+            renderizarTabela();
+        }
+    }
+
+    function renderizarTabela() {
+        corpoTabela.innerHTML = ''; 
+
+        pedidos.forEach(pedido => {
+            const linha = corpoTabela.insertRow();
+            const statusInfo = obterStatusInfo(pedido.status);
+            
+            linha.insertCell().textContent = `#${pedido.id}`;
+            linha.insertCell().textContent = pedido.cliente;
+            linha.insertCell().textContent = pedido.itens;
+            linha.insertCell().textContent = `R$ ${pedido.total.toFixed(2).replace('.', ',')}`;
+            
+            const celulaStatus = linha.insertCell();
+            celulaStatus.innerHTML = `<span class="status-tag ${statusInfo.classe}">${statusInfo.nome}</span>`;
+
+            linha.insertCell().textContent = pedido.hora;
+
+            const celulaAcoes = linha.insertCell();
+            
+            let proximoStatus = '';
+            let proximaAcao = '';
+
+            switch(pedido.status) {
+                case 'novo': proximoStatus = 'preparo'; proximaAcao = 'Iniciar Preparo'; break;
+                case 'preparo': proximoStatus = 'pronto'; proximaAcao = 'Marcar Pronto'; break;
+                case 'pronto': proximoStatus = 'entregue'; proximaAcao = 'Finalizar Pedido'; break;
+            }
+
+            if (proximoStatus) {
+                 const btnAcao = document.createElement('button');
+                 btnAcao.className = 'btn-acao';
+                 btnAcao.textContent = proximaAcao;
+                 btnAcao.onclick = () => mudarStatus(pedido.id, proximoStatus);
+                 celulaAcoes.appendChild(btnAcao);
+            }
+            
+            const btnEditar = document.createElement('button');
+            btnEditar.className = 'btn-editar';
+            btnEditar.textContent = 'Editar';
+            btnEditar.onclick = () => abrirModal('editar', pedido); 
+            celulaAcoes.appendChild(btnEditar);
+
+            const btnExcluir = document.createElement('button');
+            btnExcluir.className = 'btn-excluir';
+            btnExcluir.textContent = 'Excluir';
+            btnExcluir.onclick = () => excluirPedido(pedido.id);
+            celulaAcoes.appendChild(btnExcluir);
+        });
+    }
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const id = document.getElementById('pedidoId').value;
+        const cliente = document.getElementById('cliente').value;
+        const itens = document.getElementById('itens').value;
+        const total = parseFloat(document.getElementById('total').value);
+        const status = document.getElementById('status').value;
+        
+        const novoPedido = { cliente, itens, total, status };
+
+        if (id) {
+            // EDIÇÃO
+            const index = pedidos.findIndex(p => p.id == id);
+            if (index !== -1) {
+                pedidos[index] = { ...pedidos[index], ...novoPedido, id: parseInt(id) };
+            }
+            alert('Pedido atualizado com sucesso!');
+        } else {
+            novoPedido.id = proximoId++;
+            novoPedido.hora = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+            pedidos.push(novoPedido);
+            alert('Novo pedido adicionado!');
+        }
+
+        fecharModal();
+        renderizarTabela();
+    });
+
+    btnNovo.onclick = () => abrirModal('adicionar');
+    fechar.onclick = fecharModal;
+
+    window.onclick = (event) => {
+        if (event.target == modal) {
+            fecharModal();
+        }
+    }
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+        renderizarTabela(); 
+    });
+    </script>
+</body>
+</html>
