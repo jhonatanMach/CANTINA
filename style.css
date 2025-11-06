@@ -1,51 +1,89 @@
-/* Reset básico */
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+/* Reset e estilo básico */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #f5f5f5;
+    color: #222;
+}
 
-/* Body */
-body { background: #f4f4f4; color: #333; }
+.app-container {
+    display: flex;
+}
 
-/* Login */
-.login-container { width: 350px; margin: 80px auto; padding: 30px; background: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-.login-container h2 { text-align: center; margin-bottom: 20px; }
-.login-container input { width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #ccc; }
-.login-container button { width: 100%; padding: 10px; background: #27ae60; color: #fff; border: none; border-radius: 5px; cursor: pointer; transition: 0.3s; }
-.login-container button:hover { background: #219150; }
+.sidebar {
+    width: 220px;
+    background-color: #007bff;
+    color: #fff;
+    min-height: 100vh;
+}
 
-/* App container */
-.app-container { display: flex; min-height: 100vh; }
+.sidebar .logo {
+    padding: 20px;
+    font-size: 1.2em;
+    text-align: center;
+    font-weight: bold;
+}
 
-/* Sidebar */
-.sidebar { width: 220px; background: #2c3e50; color: #fff; padding: 20px; }
-.sidebar .logo { font-size: 20px; font-weight: bold; text-align: center; margin-bottom: 20px; }
-.sidebar ul { list-style: none; }
-.sidebar li { margin: 15px 0; }
-.sidebar a { color: #fff; text-decoration: none; display: block; padding: 8px; border-radius: 5px; }
-.sidebar a:hover, .sidebar .ativo a { background: #34495e; }
+.sidebar nav ul {
+    list-style: none;
+    padding: 0;
+}
 
-/* Main content */
-.main-content { flex: 1; padding: 20px; background: #ecf0f1; }
-.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-.content-area { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+.sidebar nav ul li {
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
 
-/* Tabela */
-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-table th, table td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
-.status-tag { padding: 3px 8px; border-radius: 5px; color: #fff; font-size: 12px; }
-.status-novo { background: #2980b9; }
-.status-preparo { background: #f39c12; }
-.status-pronto { background: #27ae60; }
-.status-entregue { background: #7f8c8d; }
+.sidebar nav ul li a {
+    display: block;
+    padding: 15px 20px;
+    color: #fff;
+    text-decoration: none;
+}
 
-/* Botões */
-button { cursor: pointer; padding: 6px 12px; border: none; border-radius: 4px; }
-.btn-acao { background: #3498db; color: #fff; margin-right: 5px; }
-.btn-editar { background: #f1c40f; color: #fff; margin-right: 5px; }
-.btn-excluir { background: #e74c3c; color: #fff; }
+.sidebar nav ul li a:hover, .sidebar nav ul li.ativo a {
+    background-color: #0056b3;
+}
 
-/* Modal */
-.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; }
-.modal-conteudo { background: #fff; padding: 20px; border-radius: 8px; width: 400px; position: relative; }
-.fechar-modal { position: absolute; top: 10px; right: 15px; font-size: 20px; cursor: pointer; }
-.form-grupo { margin-bottom: 15px; }
-.form-grupo label { display: block; margin-bottom: 5px; }
-.form-grupo input, .form-grupo select { width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc; }
+.main-content {
+    flex: 1;
+    padding: 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Tema escuro */
+body.escuro {
+    background-color: #222;
+    color: #f5f5f5;
+}
+
+body.escuro .sidebar {
+    background-color: #333;
+}
+
+body.escuro .sidebar nav ul li a {
+    color: #f5f5f5;
+}
+
+body.escuro .sidebar nav ul li a:hover, 
+body.escuro .sidebar nav ul li.ativo a {
+    background-color: #555;
+}
