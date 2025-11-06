@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pedidos - Cantina Senai</title>
+    <title>Cantina Senai | Pedidos</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -13,10 +13,10 @@
             <nav>
                 <ul>
                     <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="produtos.html">Produtos</a></li>
                     <li class="ativo"><a href="pedidos.html">Pedidos</a></li>
-                    <li><a href="#">Produtos</a></li>
-                    <li><a href="#">Relatórios</a></li>
-                    <li><a href="#">Configurações</a></li>
+                    <li><a href="relatorios.html">Relatórios</a></li>
+                    <li><a href="configuracoes.html">Configurações</a></li>
                     <li><a href="index.html" class="logout">Sair</a></li>
                 </ul>
             </nav>
@@ -26,14 +26,14 @@
             <header class="header">
                 <h2>Gerenciamento de Pedidos</h2>
                 <div class="user-info">
-                    <span>Olá, Seja Bem-Vindo(a)!</span>
+                    <span>Olá, Seja Bem Vindo(a)!</span>
                 </div>
             </header>
 
             <main class="content-area">
                 <div class="pedidos-acoes">
-                    <input type="text" placeholder="Buscar pedido por ID, nome..." class="busca-input" id="busca">
-                    <select class="filtro-status" id="filtro">
+                    <input type="text" placeholder="Buscar pedido por ID, nome..." class="busca-input" id="buscaPedido">
+                    <select class="filtro-status" id="filtroStatus">
                         <option value="todos">Mostrar Todos</option>
                         <option value="novo">Novo</option>
                         <option value="preparo">Em Preparo</option>
@@ -77,7 +77,7 @@
                 </div>
                 <div class="form-grupo">
                     <label for="itens">Itens do Pedido:</label>
-                    <input type="text" id="itens" required placeholder="Ex: Coxinha, 1 Suco Laranja">
+                    <input type="text" id="itens" required placeholder="Ex: Coxinha, Suco Laranja">
                 </div>
                 <div class="form-grupo">
                     <label for="total">Total (R$):</label>
@@ -97,6 +97,162 @@
         </div>
     </div>
 
-    <script src="pedidos.js"></script>
+<script>
+let pedidos = JSON.parse(localStorage.getItem("pedidos")) || [];
+let proximoId = pedidos.length ? Math.max(...pedidos.map(p => p.id)) + 1 : 101;
+
+const corpoTabela = document.getElementById('corpoTabela');
+const modal = document.getElementById('modalPedido');
+const fechar = document.querySelector('.fechar-modal');
+const btnNovo = document.getElementById('btnNovoPedido');
+const modalTitulo = document.getElementById('modalTitulo');
+const form = document.getElementById('formPedido');
+const buscaInput = document.getElementById('buscaPedido');
+const filtroStatus = document.getElementById('filtroStatus');
+
+function salvarPedidos() {
+    localStorage.setItem("pedidos", JSON.stringify(pedidos));
+}
+
+function obterStatusInfo(statusKey) {
+    switch(statusKey) {
+        case 'novo': return { nome: 'Novo', classe: 'status-novo' };
+        case 'preparo': return { nome: 'Em Preparo', classe: 'status-preparo' };
+        case 'pronto': return { nome: 'Pronto', classe: 'status-pronto' };
+        case 'entregue': return { nome: 'Entregue', classe: 'status-entregue' };
+        default: return { nome: 'Desconhecido', classe: 'status-desconhecido' };
+    }
+}
+
+function mudarStatus(id, novoStatus) {
+    const pedido = pedidos.find(p => p.id === id);
+    if(pedido) {
+        pedido.status = novoStatus;
+        salvarPedidos();
+        renderizarTabela();
+        alert(`Pedido #${id} movido para: ${obterStatusInfo(novoStatus).nome}`);
+    }
+}
+
+function abrirModal(modo, pedido = {}) {
+    modal.style.display = 'block';
+    if(modo === 'adicionar') {
+        modalTitulo.textContent = 'Adicionar Novo Pedido';
+        form.reset();
+        document.getElementById('pedidoId').value = '';
+        document.getElementById('status').value = 'novo';
+    } else if(modo === 'editar') {
+        modalTitulo.textContent = `Editar Pedido #${pedido.id}`;
+        document.getElementById('pedidoId').value = pedido.id;
+        document.getElementById('cliente').value = pedido.cliente;
+        document.getElementById('itens').value = pedido.itens;
+        document.getElementById('total').value = pedido.total.toFixed(2);
+        document.getElementById('status').value = pedido.status;
+    }
+}
+
+function fecharModal() {
+    modal.style.display = 'none';
+}
+
+function excluirPedido(id) {
+    if(confirm(`Deseja realmente excluir o pedido #${id}?`)) {
+        pedidos = pedidos.filter(p => p.id !== id);
+        salvarPedidos();
+        renderizarTabela();
+    }
+}
+
+function renderizarTabela() {
+    corpoTabela.innerHTML = '';
+
+    let filtro = filtroStatus.value;
+    let busca = buscaInput.value.toLowerCase();
+
+    pedidos
+        .filter(p => (filtro === 'todos' || p.status === filtro) &&
+                     (p.cliente.toLowerCase().includes(busca) || p.id.toString().includes(busca)))
+        .forEach(pedido => {
+            const linha = corpoTabela.insertRow();
+            const statusInfo = obterStatusInfo(pedido.status);
+
+            linha.insertCell().textContent = `#${pedido.id}`;
+            linha.insertCell().textContent = pedido.cliente;
+            linha.insertCell().textContent = pedido.itens;
+            linha.insertCell().textContent = `R$ ${pedido.total.toFixed(2).replace('.', ',')}`;
+            
+            const celulaStatus = linha.insertCell();
+            celulaStatus.innerHTML = `<span class="status-tag ${statusInfo.classe}">${statusInfo.nome}</span>`;
+
+            linha.insertCell().textContent = pedido.hora;
+
+            const celulaAcoes = linha.insertCell();
+            let proximoStatus = '';
+            let proximaAcao = '';
+            switch(pedido.status) {
+                case 'novo': proximoStatus = 'preparo'; proximaAcao = 'Iniciar Preparo'; break;
+                case 'preparo': proximoStatus = 'pronto'; proximaAcao = 'Marcar Pronto'; break;
+                case 'pronto': proximoStatus = 'entregue'; proximaAcao = 'Finalizar Pedido'; break;
+            }
+            if(proximoStatus) {
+                const btnAcao = document.createElement('button');
+                btnAcao.className = 'btn-acao';
+                btnAcao.textContent = proximaAcao;
+                btnAcao.onclick = () => mudarStatus(pedido.id, proximoStatus);
+                celulaAcoes.appendChild(btnAcao);
+            }
+
+            const btnEditar = document.createElement('button');
+            btnEditar.className = 'btn-editar';
+            btnEditar.textContent = 'Editar';
+            btnEditar.onclick = () => abrirModal('editar', pedido);
+            celulaAcoes.appendChild(btnEditar);
+
+            const btnExcluir = document.createElement('button');
+            btnExcluir.className = 'btn-excluir';
+            btnExcluir.textContent = 'Excluir';
+            btnExcluir.onclick = () => excluirPedido(pedido.id);
+            celulaAcoes.appendChild(btnExcluir);
+        });
+}
+
+form.addEventListener('submit', e => {
+    e.preventDefault();
+    const id = document.getElementById('pedidoId').value;
+    const cliente = document.getElementById('cliente').value;
+    const itens = document.getElementById('itens').value;
+    const total = parseFloat(document.getElementById('total').value);
+    const status = document.getElementById('status').value;
+
+    if(id) {
+        const index = pedidos.findIndex(p => p.id == id);
+        pedidos[index] = { ...pedidos[index], cliente, itens, total, status };
+        alert('Pedido atualizado!');
+    } else {
+        const novoPedido = {
+            id: proximoId++,
+            cliente,
+            itens,
+            total,
+            status,
+            hora: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+        };
+        pedidos.push(novoPedido);
+        alert('Novo pedido adicionado!');
+    }
+
+    salvarPedidos();
+    fecharModal();
+    renderizarTabela();
+});
+
+btnNovo.onclick = () => abrirModal('adicionar');
+fechar.onclick = fecharModal;
+window.onclick = e => { if(e.target === modal) fecharModal(); };
+buscaInput.addEventListener('input', renderizarTabela);
+filtroStatus.addEventListener('change', renderizarTabela);
+
+document.addEventListener('DOMContentLoaded', renderizarTabela);
+</script>
 </body>
 </html>
