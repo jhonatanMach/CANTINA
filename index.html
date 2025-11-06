@@ -4,34 +4,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cantina Senai | Login</title>
-
     <link rel="stylesheet" href="style.css">
-
 </head>
 <body>
     <header class="topo-site">
         <a href="/">
-            <img src="logocantina.png" alt="Logo Espaco gourmet" class="logo-redonda">
+            <img src="logocantina.png" alt="Logo Espaço Gourmet" class="logo-redonda">
         </a>
     </header>
-    <div class="login-container"> 
-        
+
+    <div class="login-container">
         <div class="login-lado">
             <div class="login-box">
-    <h1>Bem-vindo(a)!</h1>
-    <p>Faça login para continuar...</p>
-    
-    <form action="dashboard.html" method="POST"> 
-        <input type="email" placeholder="E-mail" required name="email_usuario">
-        <input type="password" placeholder="Senha" required name="senha_usuario">
-        
-        <button type="submit" href='dashboard.html'>Entrar</button> 
-        
-        <a href="recuperar-senha.html">Esqueci minha senha</a>
-    </form>
+                <h1>Bem-vindo(a)!</h1>
+                <p>Faça login para continuar...</p>
+                
+                <!-- Formulário -->
+                <form id="form-login">
+                    <input type="email" placeholder="E-mail" required id="email_usuario">
+                    <input type="password" placeholder="Senha" required id="senha_usuario">
+                    
+                    <button type="submit">Entrar</button>
+                    <a href="recuperar-senha.html">Esqueci minha senha</a>
+                </form>
+
+                <!-- Mensagem de erro -->
+                <p id="mensagem-erro" style="color: red; display: none; margin-top: 10px;">
+                    E-mail ou senha incorretos.
+                </p>
             </div>
         </div>
     </div>
-</body>
 
+    <script>
+        // Simulação de um "banco de dados" local (exemplo)
+        const usuarios = [
+            { email: "admin@senai.com", senha: "123456" },
+            { email: "aluno@senai.com", senha: "senha123" }
+        ];
+
+        const form = document.getElementById('form-login');
+        const msgErro = document.getElementById('mensagem-erro');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); // Evita envio padrão
+
+            const email = document.getElementById('email_usuario').value.trim();
+            const senha = document.getElementById('senha_usuario').value.trim();
+
+            // Verifica se o usuário existe no "banco"
+            const usuarioValido = usuarios.find(
+                (user) => user.email === email && user.senha === senha
+            );
+
+            if (usuarioValido) {
+                // Salva sessão no localStorage (opcional)
+                localStorage.setItem("usuarioLogado", email);
+
+                // Redireciona para o dashboard
+                window.location.href = "dashboard.html";
+            } else {
+                // Mostra mensagem de erro
+                msgErro.style.display = "block";
+            }
+        });
+    </script>
+</body>
 </html>
+
