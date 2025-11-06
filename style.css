@@ -1,169 +1,179 @@
-/* Reset básico */
+/* Reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Segoe UI', sans-serif;
 }
 
-/* Corpo */
 body {
-    display: flex;
-    min-height: 100vh;
-    background-color: #f4f6f9;
+    background-color: #f5f5f5;
 }
 
-/* Sidebar */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Login */
+.login-container {
+    max-width: 400px;
+    margin: 100px auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.login-container h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.login-container input {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.login-container button {
+    width: 100%;
+    padding: 12px;
+    background-color: #0078d4;
+    border: none;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.login-container button:hover {
+    background-color: #005a9e;
+}
+
+/* App Layout */
+.app-container {
+    display: flex;
+}
+
 .sidebar {
     width: 220px;
-    background-color: #2c3e50;
+    background-color: #0078d4;
     color: #fff;
-    display: flex;
-    flex-direction: column;
-    padding-top: 20px;
+    height: 100vh;
 }
 
 .sidebar .logo {
-    font-size: 1.4rem;
-    font-weight: bold;
     text-align: center;
-    margin-bottom: 30px;
+    padding: 20px;
+    font-weight: bold;
+    font-size: 18px;
+    background-color: #005a9e;
 }
 
-.sidebar nav ul {
+.sidebar ul {
     list-style: none;
 }
 
-.sidebar nav ul li {
-    margin-bottom: 10px;
+.sidebar ul li {
+    padding: 15px 20px;
 }
 
-.sidebar nav ul li a {
-    display: block;
-    padding: 12px 20px;
+.sidebar ul li.ativo, .sidebar ul li:hover {
+    background-color: #005a9e;
+}
+
+.sidebar ul li a {
     color: #fff;
-    text-decoration: none;
-    border-left: 4px solid transparent;
-    transition: all 0.3s;
+    display: block;
 }
 
-.sidebar nav ul li a:hover,
-.sidebar nav ul li.ativo a {
-    background-color: #34495e;
-    border-left: 4px solid #e74c3c;
-}
-
-/* Main Content */
 .main-content {
     flex: 1;
-    display: flex;
-    flex-direction: column;
+    padding: 20px;
 }
 
-/* Header */
 .header {
-    background-color: #fff;
-    padding: 15px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
 }
 
-.header h2 {
-    font-size: 1.6rem;
-    color: #2c3e50;
+.pedidos-acoes {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
 }
 
-.header .user-info span {
-    color: #555;
+.pedidos-acoes input, .pedidos-acoes select {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
 }
 
-/* Cards do Dashboard */
-.cards-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    padding: 20px;
+.botao-novo {
+    padding: 8px 12px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
-.card {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    transition: transform 0.2s;
+.botao-novo:hover {
+    background-color: #218838;
 }
 
-.card:hover {
-    transform: translateY(-5px);
-}
-
-.card h3 {
-    font-size: 1.2rem;
-    color: #888;
-    margin-bottom: 10px;
-}
-
-.card .valor {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #2c3e50;
-}
-
-/* Tabela de Pedidos */
-.tabela-container {
-    background-color: #fff;
-    margin: 20px;
-    padding: 20px;
-    border-radius: 10px;
-    overflow-x: auto;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-.tabela-container table {
+table {
     width: 100%;
     border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
-.tabela-container table th,
-.tabela-container table td {
-    padding: 12px 15px;
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
     text-align: left;
-    border-bottom: 1px solid #eee;
 }
 
-.tabela-container table th {
-    background-color: #f5f5f5;
-    color: #555;
-}
-
-.tabela-container table tr:hover {
-    background-color: #f1f1f1;
-}
-
-/* Botões */
-button {
-    cursor: pointer;
-    padding: 6px 12px;
-    border: none;
-    border-radius: 6px;
-    background-color: #e74c3c;
+th {
+    background-color: #0078d4;
     color: #fff;
-    transition: background-color 0.2s;
 }
 
-button:hover {
-    background-color: #c0392b;
+.status-tag {
+    padding: 4px 8px;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 0.9em;
 }
 
-button.botao-novo {
-    background-color: #3498db;
+.status-novo { background-color: #17a2b8; }
+.status-preparo { background-color: #ffc107; color: #333; }
+.status-pronto { background-color: #28a745; }
+.status-entregue { background-color: #6c757d; }
+
+button.btn-acao, button.btn-editar, button.btn-excluir {
+    margin-right: 5px;
+    padding: 5px 8px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.85em;
 }
 
-button.botao-novo:hover {
-    background-color: #2980b9;
-}
+.btn-acao { background-color: #17a2b8; color: #fff; }
+.btn-editar { background-color: #ffc107; color: #333; }
+.btn-excluir { background-color: #dc3545; color: #fff; }
+
+.btn-acao:hover { opacity: 0.9; }
+.btn-editar:hover { opacity: 0.9; }
+.btn-excluir:hover { opacity: 0.9; }
 
 /* Modal */
 .modal {
@@ -180,119 +190,17 @@ button.botao-novo:hover {
 
 .modal-conteudo {
     background-color: #fff;
-    margin: 100px auto;
+    margin: 10% auto;
     padding: 20px;
     border-radius: 10px;
     width: 400px;
     position: relative;
-    animation: fadeIn 0.3s;
-}
-
-@keyframes fadeIn {
-    from {opacity: 0; transform: translateY(-20px);}
-    to {opacity:1; transform: translateY(0);}
 }
 
 .fechar-modal {
     position: absolute;
-    top: 12px;
+    top: 10px;
     right: 15px;
-    font-size: 1.5rem;
-    font-weight: bold;
+    font-size: 25px;
     cursor: pointer;
-    color: #888;
-}
-
-.fechar-modal:hover {
-    color: #e74c3c;
-}
-
-/* Formulário Modal */
-.form-grupo {
-    margin-bottom: 15px;
-}
-
-.form-grupo label {
-    display: block;
-    margin-bottom: 5px;
-    color: #555;
-}
-
-.form-grupo input,
-.form-grupo select {
-    width: 100%;
-    padding: 8px 10px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    font-size: 1rem;
-}
-
-.form-grupo input:focus,
-.form-grupo select:focus {
-    border-color: #3498db;
-    outline: none;
-}
-
-/* Campos de busca e filtro */
-.pedidos-acoes {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin: 20px;
-}
-
-.pedidos-acoes input,
-.pedidos-acoes select {
-    padding: 8px 10px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-}
-
-/* Login */
-.login-container {
-    margin: auto;
-    background-color: #fff;
-    padding: 40px;
-    border-radius: 10px;
-    width: 350px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    text-align: center;
-}
-
-.login-container h2 {
-    margin-bottom: 25px;
-    color: #2c3e50;
-}
-
-.login-container input {
-    width: 100%;
-    padding: 10px 12px;
-    margin-bottom: 15px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    font-size: 1rem;
-}
-
-.login-container button {
-    width: 100%;
-    padding: 10px;
-    border-radius: 6px;
-    border: none;
-    background-color: #3498db;
-    color: #fff;
-    font-size: 1rem;
-}
-
-.login-container button:hover {
-    background-color: #2980b9;
-}
-
-/* Responsividade */
-@media(max-width: 768px){
-    .sidebar {width: 60px; text-align: center;}
-    .sidebar .logo {font-size: 1rem; padding: 10px;}
-    .sidebar nav ul li a {padding: 10px;}
-    .cards-container {grid-template-columns: 1fr;}
-    .modal-conteudo {width: 90%;}
-    .pedidos-acoes {flex-direction: column;}
 }
