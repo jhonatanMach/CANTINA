@@ -1,173 +1,156 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cantina Senai | Produtos</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cantina Senai | Produtos</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="app-container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <div class="logo">
-                Cantina Senai
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="dashboard.html">🏠 Início</a></li>
-                    <li class="ativo"><a href="#">🍔 Produtos</a></li>
-                    <li><a href="#">📦 Pedidos</a></li>
-                    <li><a href="#">👤 Usuários</a></li>
-                </ul>
-            </nav>
-            <div class="logout">
-                <button id="btn-sair" class="botao-sair">Sair</button>
-            </div>
-        </aside>
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="logo">Espaço Gourmet - Senai</div>
+        <nav>
+            <ul>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li class="ativo"><a href="produtos.html">Produtos</a></li>
+                <li><a href="pedidos.html">Pedidos</a></li>
+                <li><a href="relatorios.html">Relatórios</a></li>
+                <li><a href="configuracoes.html">Configurações</a></li>
+                <li><a href="index.html" class="logout">Sair</a></li>
+            </ul>
+        </nav>
+    </aside>
 
-        <!-- Conteúdo principal -->
-        <div class="main-content">
-            <header class="header">
-                <h2>Gestão de Produtos</h2>
-                <span id="usuarioLogado"></span>
-            </header>
-
-            <div class="content-area">
-                <div class="produtos-acoes">
-                    <input type="text" class="busca-input" placeholder="Buscar produto...">
-                    <button class="botao-novo" id="btnNovoProduto">+ Novo Produto</button>
-                </div>
-
-                <div class="tabela-container">
-                    <table id="tabelaProdutos">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Nome</th>
-                                <th>Categoria</th>
-                                <th>Preço (R$)</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Coxinha</td>
-                                <td>Salgados</td>
-                                <td>5,00</td>
-                                <td>
-                                    <button class="btn-editar">Editar</button>
-                                    <button class="btn-excluir">Excluir</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Suco de Laranja</td>
-                                <td>Bebidas</td>
-                                <td>4,50</td>
-                                <td>
-                                    <button class="btn-editar">Editar</button>
-                                    <button class="btn-excluir">Excluir</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+    <div class="main-content">
+        <header class="header">
+            <h2>Produtos</h2>
+            <div class="user-info">
+                <span>Olá, <span id="usuarioLogado"></span>!</span>
             </div>
-        </div>
+        </header>
+
+        <main class="content-area">
+            <button id="btnNovoProduto">+ Novo Produto</button>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Preço (R$)</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelaProdutos"></tbody>
+            </table>
+        </main>
     </div>
+</div>
 
-    <!-- Modal de novo produto -->
-    <div id="modalProduto" class="modal">
-        <div class="modal-conteudo">
-            <span class="fechar-modal" id="fecharModal">&times;</span>
-            <h2>Novo Produto</h2>
-
-            <form id="formProduto">
-                <div class="form-grupo">
-                    <label for="nomeProduto">Nome:</label>
-                    <input type="text" id="nomeProduto" required>
-                </div>
-
-                <div class="form-grupo">
-                    <label for="categoriaProduto">Categoria:</label>
-                    <select id="categoriaProduto" required>
-                        <option value="">Selecione...</option>
-                        <option value="Salgados">Salgados</option>
-                        <option value="Doces">Doces</option>
-                        <option value="Bebidas">Bebidas</option>
-                        <option value="Outros">Outros</option>
-                    </select>
-                </div>
-
-                <div class="form-grupo">
-                    <label for="precoProduto">Preço (R$):</label>
-                    <input type="number" id="precoProduto" step="0.01" min="0" required>
-                </div>
-
-                <button type="submit" id="btnSalvar">Salvar</button>
-            </form>
-        </div>
+<!-- Modal Produto -->
+<div id="modalProduto" class="modal">
+    <div class="modal-conteudo">
+        <span class="fechar-modal">&times;</span>
+        <h2 id="tituloModalProduto">Adicionar Produto</h2>
+        <form id="formProduto">
+            <input type="hidden" id="produtoId" value="">
+            <div class="form-grupo">
+                <label for="nomeProduto">Nome:</label>
+                <input type="text" id="nomeProduto" required>
+            </div>
+            <div class="form-grupo">
+                <label for="precoProduto">Preço (R$):</label>
+                <input type="number" id="precoProduto" step="0.01" min="0" required>
+            </div>
+            <button type="submit">Salvar</button>
+        </form>
     </div>
+</div>
 
-    <script>
-        // Proteção de acesso
-        const usuario = localStorage.getItem("usuarioLogado");
-        const usuarioTexto = document.getElementById("usuarioLogado");
-        const btnSair = document.getElementById("btn-sair");
+<script>
+const usuario = localStorage.getItem("usuarioLogado");
+if(!usuario) window.location.href = "index.html";
+else document.getElementById("usuarioLogado").textContent = usuario;
 
-        if (!usuario) {
-            window.location.href = "login.html";
-        } else {
-            usuarioTexto.textContent = "Logado como: " + usuario;
-        }
+// Produtos
+let produtos = [
+    {id: 1, nome: "Coxinha", preco: 5.00},
+    {id: 2, nome: "Suco Laranja", preco: 7.50}
+];
+let proximoIdProduto = 3;
 
-        btnSair.addEventListener("click", () => {
-            localStorage.removeItem("usuarioLogado");
-            window.location.href = "login.html";
-        });
+const corpoTabela = document.getElementById("tabelaProdutos");
+const modal = document.getElementById("modalProduto");
+const btnNovo = document.getElementById("btnNovoProduto");
+const fechar = document.querySelector(".fechar-modal");
+const form = document.getElementById("formProduto");
+const tituloModal = document.getElementById("tituloModalProduto");
 
-        // Controle do modal
-        const modal = document.getElementById("modalProduto");
-        const btnNovo = document.getElementById("btnNovoProduto");
-        const fechar = document.getElementById("fecharModal");
-        const form = document.getElementById("formProduto");
-        const tabela = document.getElementById("tabelaProdutos").querySelector("tbody");
+function renderizarProdutos() {
+    corpoTabela.innerHTML = "";
+    produtos.forEach(prod => {
+        const linha = corpoTabela.insertRow();
+        linha.insertCell().textContent = prod.id;
+        linha.insertCell().textContent = prod.nome;
+        linha.insertCell().textContent = prod.preco.toFixed(2).replace(".", ",");
+        const celulaAcoes = linha.insertCell();
 
-        btnNovo.onclick = () => modal.style.display = "block";
-        fechar.onclick = () => modal.style.display = "none";
-        window.onclick = (event) => {
-            if (event.target === modal) modal.style.display = "none";
+        const btnEditar = document.createElement("button");
+        btnEditar.textContent = "Editar";
+        btnEditar.className = "btn-editar";
+        btnEditar.onclick = () => abrirModal("editar", prod);
+        celulaAcoes.appendChild(btnEditar);
+
+        const btnExcluir = document.createElement("button");
+        btnExcluir.textContent = "Excluir";
+        btnExcluir.className = "btn-excluir";
+        btnExcluir.onclick = () => {
+            if(confirm(`Excluir produto ${prod.nome}?`)){
+                produtos = produtos.filter(p => p.id !== prod.id);
+                renderizarProdutos();
+            }
         };
+        celulaAcoes.appendChild(btnExcluir);
+    });
+}
 
-        // Adiciona novo produto na tabela
-        form.addEventListener("submit", function(event) {
-            event.preventDefault();
+function abrirModal(modo, prod = {}) {
+    modal.style.display = "flex";
+    if(modo === "adicionar") {
+        tituloModal.textContent = "Adicionar Produto";
+        form.reset();
+        document.getElementById("produtoId").value = "";
+    } else {
+        tituloModal.textContent = `Editar Produto #${prod.id}`;
+        document.getElementById("produtoId").value = prod.id;
+        document.getElementById("nomeProduto").value = prod.nome;
+        document.getElementById("precoProduto").value = prod.preco;
+    }
+}
 
-            const nome = document.getElementById("nomeProduto").value;
-            const categoria = document.getElementById("categoriaProduto").value;
-            const preco = document.getElementById("precoProduto").value;
+function fecharModal() { modal.style.display = "none"; }
 
-            const id = tabela.rows.length + 1;
+btnNovo.onclick = () => abrirModal("adicionar");
+fechar.onclick = fecharModal;
+window.onclick = e => { if(e.target==modal) fecharModal(); };
 
-            const novaLinha = `
-                <tr>
-                    <td>${id}</td>
-                    <td>${nome}</td>
-                    <td>${categoria}</td>
-                    <td>${parseFloat(preco).toFixed(2)}</td>
-                    <td>
-                        <button class="btn-editar">Editar</button>
-                        <button class="btn-excluir">Excluir</button>
-                    </td>
-                </tr>
-            `;
-            tabela.insertAdjacentHTML("beforeend", novaLinha);
+form.addEventListener("submit", e => {
+    e.preventDefault();
+    const id = document.getElementById("produtoId").value;
+    const nome = document.getElementById("nomeProduto").value;
+    const preco = parseFloat(document.getElementById("precoProduto").value);
+    if(id){
+        const index = produtos.findIndex(p=>p.id==id);
+        if(index!==-1) produtos[index] = {id: parseInt(id), nome, preco};
+    } else {
+        produtos.push({id: proximoIdProduto++, nome, preco});
+    }
+    fecharModal();
+    renderizarProdutos();
+});
 
-            form.reset();
-            modal.style.display = "none";
-        });
-    </script>
+renderizarProdutos();
+</script>
 </body>
 </html>
+
