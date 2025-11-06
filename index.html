@@ -24,6 +24,7 @@ formLogin.addEventListener("submit", (e) => {
     const email = document.getElementById("email").value;
     const senha = document.getElementById("senha").value;
 
+    // Login fixo (substituir com banco real)
     if(email === "admin@senai.com" && senha === "123") {
         localStorage.setItem("usuarioLogado", email);
         window.location.href = "dashboard.html";
