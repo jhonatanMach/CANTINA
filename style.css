@@ -1,206 +1,51 @@
-/* Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', sans-serif;
-}
+/* Reset básico */
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
 
-body {
-    background-color: #f5f5f5;
-}
-
-a {
-    text-decoration: none;
-    color: inherit;
-}
+/* Body */
+body { background: #f4f4f4; color: #333; }
 
 /* Login */
-.login-container {
-    max-width: 400px;
-    margin: 100px auto;
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    text-align: center;
-}
+.login-container { width: 350px; margin: 80px auto; padding: 30px; background: #fff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+.login-container h2 { text-align: center; margin-bottom: 20px; }
+.login-container input { width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #ccc; }
+.login-container button { width: 100%; padding: 10px; background: #27ae60; color: #fff; border: none; border-radius: 5px; cursor: pointer; transition: 0.3s; }
+.login-container button:hover { background: #219150; }
 
-.login-container h2 {
-    margin-bottom: 20px;
-    color: #333;
-}
+/* App container */
+.app-container { display: flex; min-height: 100vh; }
 
-.login-container input {
-    width: 100%;
-    padding: 12px;
-    margin: 8px 0;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
+/* Sidebar */
+.sidebar { width: 220px; background: #2c3e50; color: #fff; padding: 20px; }
+.sidebar .logo { font-size: 20px; font-weight: bold; text-align: center; margin-bottom: 20px; }
+.sidebar ul { list-style: none; }
+.sidebar li { margin: 15px 0; }
+.sidebar a { color: #fff; text-decoration: none; display: block; padding: 8px; border-radius: 5px; }
+.sidebar a:hover, .sidebar .ativo a { background: #34495e; }
 
-.login-container button {
-    width: 100%;
-    padding: 12px;
-    background-color: #0078d4;
-    border: none;
-    color: #fff;
-    border-radius: 5px;
-    cursor: pointer;
-}
+/* Main content */
+.main-content { flex: 1; padding: 20px; background: #ecf0f1; }
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.content-area { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
 
-.login-container button:hover {
-    background-color: #005a9e;
-}
+/* Tabela */
+table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+table th, table td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+.status-tag { padding: 3px 8px; border-radius: 5px; color: #fff; font-size: 12px; }
+.status-novo { background: #2980b9; }
+.status-preparo { background: #f39c12; }
+.status-pronto { background: #27ae60; }
+.status-entregue { background: #7f8c8d; }
 
-/* App Layout */
-.app-container {
-    display: flex;
-}
-
-.sidebar {
-    width: 220px;
-    background-color: #0078d4;
-    color: #fff;
-    height: 100vh;
-}
-
-.sidebar .logo {
-    text-align: center;
-    padding: 20px;
-    font-weight: bold;
-    font-size: 18px;
-    background-color: #005a9e;
-}
-
-.sidebar ul {
-    list-style: none;
-}
-
-.sidebar ul li {
-    padding: 15px 20px;
-}
-
-.sidebar ul li.ativo, .sidebar ul li:hover {
-    background-color: #005a9e;
-}
-
-.sidebar ul li a {
-    color: #fff;
-    display: block;
-}
-
-.main-content {
-    flex: 1;
-    padding: 20px;
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.pedidos-acoes {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 15px;
-}
-
-.pedidos-acoes input, .pedidos-acoes select {
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
-
-.botao-novo {
-    padding: 8px 12px;
-    background-color: #28a745;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.botao-novo:hover {
-    background-color: #218838;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #fff;
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-th, td {
-    padding: 12px;
-    border-bottom: 1px solid #ddd;
-    text-align: left;
-}
-
-th {
-    background-color: #0078d4;
-    color: #fff;
-}
-
-.status-tag {
-    padding: 4px 8px;
-    border-radius: 5px;
-    color: #fff;
-    font-size: 0.9em;
-}
-
-.status-novo { background-color: #17a2b8; }
-.status-preparo { background-color: #ffc107; color: #333; }
-.status-pronto { background-color: #28a745; }
-.status-entregue { background-color: #6c757d; }
-
-button.btn-acao, button.btn-editar, button.btn-excluir {
-    margin-right: 5px;
-    padding: 5px 8px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 0.85em;
-}
-
-.btn-acao { background-color: #17a2b8; color: #fff; }
-.btn-editar { background-color: #ffc107; color: #333; }
-.btn-excluir { background-color: #dc3545; color: #fff; }
-
-.btn-acao:hover { opacity: 0.9; }
-.btn-editar:hover { opacity: 0.9; }
-.btn-excluir:hover { opacity: 0.9; }
+/* Botões */
+button { cursor: pointer; padding: 6px 12px; border: none; border-radius: 4px; }
+.btn-acao { background: #3498db; color: #fff; margin-right: 5px; }
+.btn-editar { background: #f1c40f; color: #fff; margin-right: 5px; }
+.btn-excluir { background: #e74c3c; color: #fff; }
 
 /* Modal */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 100;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.5);
-}
-
-.modal-conteudo {
-    background-color: #fff;
-    margin: 10% auto;
-    padding: 20px;
-    border-radius: 10px;
-    width: 400px;
-    position: relative;
-}
-
-.fechar-modal {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 25px;
-    cursor: pointer;
-}
+.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; }
+.modal-conteudo { background: #fff; padding: 20px; border-radius: 8px; width: 400px; position: relative; }
+.fechar-modal { position: absolute; top: 10px; right: 15px; font-size: 20px; cursor: pointer; }
+.form-grupo { margin-bottom: 15px; }
+.form-grupo label { display: block; margin-bottom: 5px; }
+.form-grupo input, .form-grupo select { width: 100%; padding: 8px; border-radius: 5px; border: 1px solid #ccc; }
