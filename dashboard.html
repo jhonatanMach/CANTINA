@@ -5,40 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Cantina Senai</title>
     <link rel="stylesheet" href="style.css">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cantina Senai | Dashboard</title>
-<link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="app-container">
-        <aside class="sidebar">
-            <div class="logo">Espaço Gourmet - Senai</div>
-            <nav>
-                <ul>
-                    <li class="ativo"><a href="dashboard.html">Dashboard</a></li>
-                    <li><a href="pedidos.html">Pedidos</a></li>
-                    <li><a href="#">Produtos</a></li>
-                    <li><a href="#">Relatórios</a></li>
-                    <li><a href="#">Configurações</a></li>
-                    <li><a href="index.html" class="logout">Sair</a></li>
-                </ul>
-            </nav>
-        </aside>
-<div class="app-container">
-
-        <div class="main-content">
-            <header class="header">
-                <h2>Dashboard</h2>
-                <div class="user-info">
-                    <span>Olá, Seja Bem-Vindo(a)!</span>
-                </div>
-            </header>
-            <main class="content-area">
-                <h3>Bem-vindo ao sistema da Cantina Senai!</h3>
-                <p>Use o menu lateral para gerenciar pedidos, produtos e relatórios.</p>
-            </main>
-        </div>
     <aside class="sidebar">
         <div class="logo">Espaço Gourmet - Senai</div>
         <nav>
@@ -48,7 +16,7 @@
                 <li><a href="pedidos.html">Pedidos</a></li>
                 <li><a href="relatorios.html">Relatórios</a></li>
                 <li><a href="configuracoes.html">Configurações</a></li>
-                <li><a href="index.html" class="logout">Sair</a></li>
+                <li><a href="#" class="logout">Sair</a></li>
             </ul>
         </nav>
     </aside>
@@ -57,31 +25,53 @@
         <header class="header">
             <h2>Dashboard</h2>
             <div class="user-info">
-                <span>Olá, <span id="usuarioLogado"></span>!</span>
+                <span>Olá, Seja Bem Vindo(a)!</span>
             </div>
         </header>
 
         <main class="content-area">
-            <h3>Bem-vindo ao sistema da Cantina Senai!</h3>
-            <p>Use o menu lateral para navegar entre Produtos, Pedidos, Relatórios e Configurações.</p>
+            <div class="cards-container">
+                <div class="card">
+                    <h3>Pedidos Totais</h3>
+                    <p class="valor" id="numPedidos">0</p>
+                </div>
+                <div class="card">
+                    <h3>Faturamento Total</h3>
+                    <p class="valor" id="faturamento">R$ 0,00</p>
+                </div>
+                <div class="card">
+                    <h3>Em Preparo</h3>
+                    <p class="valor" id="emPreparo">0</p>
+                </div>
+                <div class="card">
+                    <h3>Entregues</h3>
+                    <p class="valor" id="entregues">0</p>
+                </div>
+            </div>
         </main>
     </div>
-</div>
 
     <script>
-        // Verifica login
-        if(!localStorage.getItem("usuarioLogado")){
-            window.location.href = "index.html";
-        }
+        // Proteção de acesso
+        const usuario = localStorage.getItem("usuarioLogado");
+        if(!usuario) window.location.href = "index1.html";
+
+        const btnSair = document.querySelector(".logout");
+        btnSair.addEventListener("click", () => {
+            localStorage.removeItem("usuarioLogado");
+            window.location.href = "index1.html";
+        });
+
+        // Carrega pedidos
+        const dadosPedidos = JSON.parse(localStorage.getItem("pedidos")) || [];
+
+        document.getElementById("numPedidos").textContent = dadosPedidos.length;
+        const totalFaturamento = dadosPedidos.reduce((s, p) => s + (p.total || 0), 0);
+        document.getElementById("faturamento").textContent = "R$ " + totalFaturamento.toFixed(2).replace(".", ",");
+        document.getElementById("entregues").textContent = dadosPedidos.filter(p => p.status === "entregue").length;
+        document.getElementById("emPreparo").textContent = dadosPedidos.filter(p => p.status === "preparo").length;
     </script>
-<script>
-// Verifica se usuário está logado
-const usuario = localStorage.getItem("usuarioLogado");
-if(!usuario) {
-    window.location.href = "index.html";
-} else {
-    document.getElementById("usuarioLogado").textContent = usuario;
-}
-</script>
 </body>
 </html>
+
+
