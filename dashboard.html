@@ -3,55 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cantina Senai | Início</title>
-    
-    <link rel="stylesheet" href="style.css"> 
+    <title>Dashboard | Cantina Senai</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
-    <div class="app-container">
-        
-        <aside class="sidebar">
-            <div class="logo">Espaço Gourmet - Senai</div>
-            <nav>
-                <ul>
-                    <li class="ativo"><a href="#">Dashboard</a></li>
-                    <li><a href="produtos.html">Produtos</a></li>
-                    <li><a href="pedidos.html">Pedidos</a></li>
-                    <li><a href="relatorios.html">Relatórios</a></li>
-                    <li><a href="configuracoes.html">Configurações</a></li>
-                    <li><a href="index.html" class="logout">Sair</a></li>
-                </ul>
-            </nav>
-        </aside>
-        
-        <div class="main-content">
-            
-            <header class="header">
-                <h2>Visão Geral</h2>
-                <div class="user-info">
-                    <span>Olá, Seja Bem Vindo(a) !/span>
-                    </div>
-            </header>
-            
-            <main class="content-area">
-                
-                <div class="card">
-                    <h3>Vendas de Hoje</h3>
-                    <p class="valor">R$ 1.500,00</p>
-                </div>
-                
-                <div class="card">
-                    <h3>Pedidos Pendentes</h3>
-                    <p class="valor">12</p>
-                </div>
+    <header class="topo-site">
+        <a href="/">
+            <img src="logocantina.png" alt="Logo Espaço Gourmet" class="logo-redonda">
+        </a>
 
-                <div class="card">
-                    <h3>Clientes Ativos</h3>
-                    <p class="valor">520</p>
-                </div>
+        <nav>
+            <button id="btn-sair" class="botao-sair">Sair</button>
+        </nav>
+    </header>
 
-            </main>
-            
-        </div> </div> </body>
+    <main class="conteudo-dashboard">
+        <h1>Bem-vindo(a) à Cantina Senai!</h1>
+        <p id="mensagem-usuario"></p>
+
+        <section class="painel">
+            <h2>Área do Usuário</h2>
+            <p>Aqui você pode acessar informações da cantina, cardápios e muito mais.</p>
+        </section>
+    </main>
+
+    <script>
+        // Recupera o usuário logado do localStorage
+        const usuario = localStorage.getItem("usuarioLogado");
+
+        // Se não estiver logado, redireciona de volta para o login
+        if (!usuario) {
+            window.location.href = "login.html";
+        } else {
+            // Exibe uma mensagem personalizada
+            const mensagem = document.getElementById("mensagem-usuario");
+            mensagem.textContent = `Você está logado como: ${usuario}`;
+        }
+
+        // Botão de sair
+        const btnSair = document.getElementById("btn-sair");
+        btnSair.addEventListener("click", () => {
+            localStorage.removeItem("usuarioLogado"); // Apaga o login salvo
+            window.location.href = "login.html"; // Redireciona para o login
+        });
+    </script>
+</body>
 </html>
