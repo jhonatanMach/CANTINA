@@ -1,41 +1,136 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cantina Senai | Relatórios</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cantina Senai | Relatórios</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <div class="app-container">
-        <aside class="sidebar">
-            <div class="logo">Espaço Gourmet - Senai</div>
-            <nav>
-                <ul>
-                    <li><a href="dashboard.html">Dashboard</a></li>
-                    <li><a href="produtos.html">Produtos</a></li>
-                    <li><a href="pedidos.html">Pedidos</a></li>
-                    <li class="ativo"><a href="relatorios.html">Relatórios</a></li>
-                    <li><a href="configuracoes.html">Configurações</a></li>
-                    <li><a href="index.html" class="logout">Sair</a></li>
-                </ul>
-            </nav>
-        </aside>
+<div class="app-container">
 
-        <div class="main-content">
-            <header class="header">
-                <h2>Relatórios</h2>
-                <div class="user-info">
-                    <span>Olá, Seja Bem Vindo(a)!</span>
+    <aside class="sidebar">
+        <div class="logo">Espaço Gourmet - Senai</div>
+        <nav>
+            <ul>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="produtos.html">Produtos</a></li>
+                <li><a href="pedidos.html">Pedidos</a></li>
+                <li class="ativo"><a href="relatorios.html">Relatórios</a></li>
+                <li><a href="configuracoes.html">Configurações</a></li>
+                <li><a href="index.html" class="logout">Sair</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <div class="main-content">
+        <header class="header">
+            <h2>Relatórios</h2>
+            <div class="user-info">
+                <span>Olá, <span id="usuarioLogado"></span>!</span>
+            </div>
+        </header>
+
+        <main class="content-area">
+            <div class="relatorio-resumo">
+                <div class="card">
+                    <h3>Total de Pedidos</h3>
+                    <p id="totalPedidos">0</p>
                 </div>
-            </header>
+                <div class="card">
+                    <h3>Total Faturado (R$)</h3>
+                    <p id="totalFaturado">0,00</p>
+                </div>
+            </div>
 
-            <main class="content-area">
-                <h3>Relatórios de Vendas e Pedidos</h3>
-                <p>Aqui você verá os relatórios da cantina.</p>
-                <!-- Você pode adicionar gráficos, tabelas, totais -->
-            </main>
-        </div>
+            <div class="grafico-status">
+                <h3>Pedidos por Status</h3>
+                <canvas id="chartStatus" width="400" height="200"></canvas>
+            </div>
+
+            <div class="pedidos-recentes">
+                <h3>Últimos Pedidos</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Cliente/Mesa</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Hora</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelaPedidosResumo"></tbody>
+                </table>
+            </div>
+        </main>
     </div>
+</div>
+
+<script>
+const usuario = localStorage.getItem("usuarioLogado");
+if(!usuario) window.location.href = "index.html";
+else document.getElementById("usuarioLogado").textContent = usuario;
+
+// Puxando pedidos do localStorage ou valores iniciais
+let pedidos = JSON.parse(localStorage.getItem("pedidos")) || [
+    {id:101, cliente:"Mesa 3", itens:"X-Salada, Coca-Cola", total:35.50, status:"novo", hora:"10:45"},
+    {id:102, cliente:"João Silva", itens:"3 Pasteis de Queijo, Suco Laranja", total:22.00, status:"preparo", hora:"10:40"},
+    {id:103, cliente:"Mesa 1", itens:"Prato Feito A", total:28.00, status:"pronto", hora:"10:30"},
+    {id:104, cliente:"Maria Souza", itens:"Açaí Grande", total:18.50, status:"entregue", hora:"10:20"}
+];
+
+// Função de atualização do relatório
+function atualizarRelatorio(){
+    // Total pedidos
+    document.getElementById("totalPedidos").textContent = pedidos.length;
+
+    // Total faturado
+    const faturado = pedidos.reduce((acc,p)=>acc+p.total,0);
+    document.getElementById("totalFaturado").textContent = faturado.toFixed(2).replace(".",",");
+
+    // Contagem por status
+    const statusCounts = {novo:0, preparo:0, pronto:0, entregue:0};
+    pedidos.forEach(p=>statusCounts[p.status]++);
+
+    // Gráfico
+    const ctx = document.getElementById('chartStatus').getContext('2d');
+    if(window.chartStatusInstance) window.chartStatusInstance.destroy();
+    window.chartStatusInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Novo','Em Preparo','Pronto','Entregue'],
+            datasets: [{
+                label: 'Pedidos',
+                data: [statusCounts.novo, statusCounts.preparo, statusCounts.pronto, statusCounts.entregue],
+                backgroundColor: ['#ffbb33','#33b5e5','#00C851','#2E2E2E']
+            }]
+        },
+        options: {
+            responsive:true,
+            plugins:{
+                legend:{display:false},
+                title:{display:true, text:'Pedidos por Status'}
+            },
+            scales:{y:{beginAtZero:true, precision:0}}
+        }
+    });
+
+    // Últimos pedidos
+    const corpoTabela = document.getElementById("tabelaPedidosResumo");
+    corpoTabela.innerHTML="";
+    pedidos.slice(-5).reverse().forEach(p=>{
+        const linha = corpoTabela.insertRow();
+        linha.insertCell().textContent = `#${p.id}`;
+        linha.insertCell().textContent = p.cliente;
+        linha.insertCell().textContent = `R$ ${p.total.toFixed(2).replace(".",",")}`;
+        linha.insertCell().textContent = p.status.charAt(0).toUpperCase()+p.status.slice(1);
+        linha.insertCell().textContent = p.hora;
+    });
+}
+
+atualizarRelatorio();
+</script>
 </body>
 </html>
