@@ -24,7 +24,7 @@
             const email = document.getElementById("email").value;
             const senha = document.getElementById("senha").value;
 
-            // Login fixo (pode substituir com banco real)
+            // Login fixo
             if(email === "admin@senai.com" && senha === "123") {
                 localStorage.setItem("usuarioLogado", email);
                 window.location.href = "dashboard.html";
