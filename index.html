@@ -5,10 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Cantina Senai</title>
     <link rel="stylesheet" href="style.css">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login - Cantina Senai</title>
-<link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="login-container">
@@ -19,30 +15,16 @@
             <button type="submit">Entrar</button>
         </form>
     </div>
-<div class="login-container">
-    <h2>Login Cantina Senai</h2>
-    <form id="formLogin">
-        <input type="email" id="email" placeholder="E-mail" required>
-        <input type="password" id="senha" placeholder="Senha" required>
-        <button type="submit">Entrar</button>
-    </form>
-</div>
 
     <script>
         const formLogin = document.getElementById("formLogin");
-<script>
-const formLogin = document.getElementById("formLogin");
 
         formLogin.addEventListener("submit", (e) => {
             e.preventDefault();
             const email = document.getElementById("email").value;
             const senha = document.getElementById("senha").value;
-formLogin.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const email = document.getElementById("email").value;
-    const senha = document.getElementById("senha").value;
 
-            // Login fixo
+            // Login fixo (pode substituir com banco real)
             if(email === "admin@senai.com" && senha === "123") {
                 localStorage.setItem("usuarioLogado", email);
                 window.location.href = "dashboard.html";
@@ -51,13 +33,7 @@ formLogin.addEventListener("submit", (e) => {
             }
         });
     </script>
-    if(email === "admin@senai.com" && senha === "123") {
-        localStorage.setItem("usuarioLogado", email);
-        window.location.href = "dashboard.html";
-    } else {
-        alert("E-mail ou senha incorretos!");
-    }
-});
-</script>
 </body>
 </html>
+
+
