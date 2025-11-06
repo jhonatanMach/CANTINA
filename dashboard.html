@@ -3,127 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | Cantina Senai</title>
+    <title>Dashboard - Cantina Senai</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="app-container">
-        <!-- Barra lateral -->
-        <aside class="sidebar">
-            <div class="logo">
-                Cantina Senai
-            </div>
-            <nav>
-                <ul>
-                    <li class="ativo"><a href="#">🏠 Início</a></li>
-                    <li><a href="#">🍔 Produtos</a></li>
-                    <li><a href="#">📦 Pedidos</a></li>
-                    <li><a href="#">👤 Usuários</a></li>
-                </ul>
-            </nav>
-            <div class="logout">
-                <button id="btn-sair" class="botao-sair">Sair</button>
-            </div>
-        </aside>
+    <aside class="sidebar">
+        <div class="logo">Espaço Gourmet - Senai</div>
+        <nav>
+            <ul>
+                <li class="ativo"><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="produtos.html">Produtos</a></li>
+                <li><a href="pedidos.html">Pedidos</a></li>
+                <li><a href="relatorios.html">Relatórios</a></li>
+                <li><a href="configuracoes.html">Configurações</a></li>
+                <li><a href="#" class="logout">Sair</a></li>
+            </ul>
+        </nav>
+    </aside>
 
-        <!-- Conteúdo principal -->
-        <div class="main-content">
-            <header class="header">
-                <h2>Bem-vindo(a)!</h2>
-                <span id="usuarioLogado"></span>
-            </header>
+    <div class="main-content">
+        <header class="header">
+            <h2>Dashboard</h2>
+            <div class="user-info">
+                <span>Olá, Seja Bem Vindo(a)!</span>
+            </div>
+        </header>
 
-            <div class="content-area">
-                <!-- Cards informativos -->
-                <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 30px;">
-                    <div class="card">
-                        <h3>Pedidos Hoje</h3>
-                        <p class="valor">32</p>
-                    </div>
-                    <div class="card">
-                        <h3>Produtos Ativos</h3>
-                        <p class="valor">58</p>
-                    </div>
-                    <div class="card">
-                        <h3>Faturamento (R$)</h3>
-                        <p class="valor">1.245,00</p>
-                    </div>
+        <main class="content-area">
+            <div class="cards-container">
+                <div class="card">
+                    <h3>Pedidos Totais</h3>
+                    <p class="valor" id="numPedidos">0</p>
                 </div>
-
-                <!-- Seção de pedidos -->
-                <section>
-                    <div class="produtos-acoes">
-                        <input type="text" class="busca-input" placeholder="Buscar pedido...">
-                        <button class="botao-novo">+ Novo Pedido</button>
-                    </div>
-
-                    <div class="tabela-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Cliente</th>
-                                    <th>Produto</th>
-                                    <th>Status</th>
-                                    <th>Ações</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>#001</td>
-                                    <td>Maria Silva</td>
-                                    <td>Salgado + Suco</td>
-                                    <td><span class="status-tag status-preparo">Em preparo</span></td>
-                                    <td>
-                                        <button class="btn-editar">Editar</button>
-                                        <button class="btn-excluir">Excluir</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>#002</td>
-                                    <td>João Souza</td>
-                                    <td>Sanduíche Natural</td>
-                                    <td><span class="status-tag status-pronto">Pronto</span></td>
-                                    <td>
-                                        <button class="btn-editar">Editar</button>
-                                        <button class="btn-excluir">Excluir</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>#003</td>
-                                    <td>Ana Lima</td>
-                                    <td>Pastel + Refrigerante</td>
-                                    <td><span class="status-tag status-entregue">Entregue</span></td>
-                                    <td>
-                                        <button class="btn-editar">Editar</button>
-                                        <button class="btn-excluir">Excluir</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
+                <div class="card">
+                    <h3>Faturamento Total</h3>
+                    <p class="valor" id="faturamento">R$ 0,00</p>
+                </div>
+                <div class="card">
+                    <h3>Em Preparo</h3>
+                    <p class="valor" id="emPreparo">0</p>
+                </div>
+                <div class="card">
+                    <h3>Entregues</h3>
+                    <p class="valor" id="entregues">0</p>
+                </div>
             </div>
-        </div>
+        </main>
     </div>
 
     <script>
-        // Proteção de acesso: redireciona se não estiver logado
+        // Proteção de acesso
         const usuario = localStorage.getItem("usuarioLogado");
-        const usuarioTexto = document.getElementById("usuarioLogado");
-        const btnSair = document.getElementById("btn-sair");
+        if(!usuario) window.location.href = "index1.html";
 
-        if (!usuario) {
-            window.location.href = "login.html";
-        } else {
-            usuarioTexto.textContent = "Logado como: " + usuario;
-        }
-
-        // Botão de sair
+        const btnSair = document.querySelector(".logout");
         btnSair.addEventListener("click", () => {
             localStorage.removeItem("usuarioLogado");
-            window.location.href = "login.html";
+            window.location.href = "index1.html";
         });
+
+        // Carrega pedidos
+        const dadosPedidos = JSON.parse(localStorage.getItem("pedidos")) || [];
+
+        document.getElementById("numPedidos").textContent = dadosPedidos.length;
+        const totalFaturamento = dadosPedidos.reduce((s, p) => s + (p.total || 0), 0);
+        document.getElementById("faturamento").textContent = "R$ " + totalFaturamento.toFixed(2).replace(".", ",");
+        document.getElementById("entregues").textContent = dadosPedidos.filter(p => p.status === "entregue").length;
+        document.getElementById("emPreparo").textContent = dadosPedidos.filter(p => p.status === "preparo").length;
     </script>
 </body>
 </html>
